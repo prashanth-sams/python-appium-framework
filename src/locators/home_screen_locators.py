@@ -1,3 +1,7 @@
-class Locators(object):
-    # home screen locators
+class HomeLocators(object):
     
+    # home screen locators
+    loginMenu = "Login"
+    formsMenu = "Forms"
+    homeMenu = "Home"
+    swipeMenu = "Swipe"

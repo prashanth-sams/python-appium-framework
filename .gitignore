@@ -2,3 +2,4 @@ dump/
 .DS_Store
 src/__pycache__
 src/spec/__pycache__
+src/locators/__pycache__
