@@ -1,7 +1,5 @@
 import unittest
-from time import sleep
 from src.support.webdriver import Driver
-import pdb
 from src.locators.home_screen_locators import HomeLocators
 from src.locators.login_screen_locators import LoginLocators
 
