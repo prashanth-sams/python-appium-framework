@@ -44,10 +44,9 @@ before_install:
     - echo yes | sdkmanager "platforms;android-28"
 
 before_script:
-    - sdkmanager "system-images;android-28;google_apis;x86"
+    - echo yes | sdkmanager "system-images;android-28;google_apis;x86"
     - echo no | avdmanager --verbose create avd --force --name "PF" --device "pixel" --package "system-images;android-28;google_apis;x86" --tag "google_apis" --abi "x86"
-    - cd $ANDROID_HOME/emulator
-    - emulator -avd PF -no-skin -no-window &
+    - $ANDROID_HOME/emulator/emulator -avd PF -no-skin -no-window &
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
 
