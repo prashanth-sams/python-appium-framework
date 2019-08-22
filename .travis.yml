@@ -13,6 +13,8 @@ android:
         - extra-android-m2repository
         - addon-google_apis-google-28
         - sys-img-armeabi-v7a-android-28
+        - add-on
+        - extra
 
 before_install:
     - sudo apt-get update
@@ -43,7 +45,10 @@ before_install:
 
 before_script:
     - sdkmanager "system-images;android-28;google_apis;x86"
-    - echo "no" | avdmanager --verbose create avd --force --name "PF" --device "pixel" --package "system-images;android-28;google_apis;x86" --tag "google_apis" --abi "x86"
+    - mkdir "$ANDROID_HOME/licenses" || true
+    - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+    - echo -e "\    " > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+    - echo no | avdmanager --verbose create avd --force --name "PF" --device "pixel" --package "system-images;android-28;google_apis;x86" --tag "google_apis" --abi "x86"
     - emulator -avd PF -no-skin -no-window &
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
