@@ -40,12 +40,12 @@ before_install:
     - npm install appium-doctor
     - "./node_modules/.bin/appium-doctor"
     - "./node_modules/.bin/appium --log-level info > appium_log.txt &"
-    - echo yes | sdkmanager "build-tools;26.0.2"
-    - echo yes | sdkmanager "platforms;android-26"
+    - echo yes | sdkmanager "build-tools;25.0.2"
+    - echo yes | sdkmanager "platforms;android-25"
 
 before_script:
-    - echo yes | sdkmanager "system-images;android-26;google_apis;armeabi-v7a"
-    - echo no | android --verbose create avd --force --name PF --device "pixel" -k "system-images;android-26;google_apis;armeabi-v7a" --tag google_apis --abi "google_apis;armeabi-v7a"
+    - echo yes | sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
+    - echo no | android --verbose create avd --force --name PF --device "pixel" -k "system-images;android-25;google_apis;armeabi-v7a" --tag google_apis --abi "google_apis;armeabi-v7a"
     - $ANDROID_HOME/emulator/emulator -avd PF -no-skin -no-window &
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
