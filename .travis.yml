@@ -48,15 +48,16 @@ before_install:
     # - echo yes | sdkmanager "platforms;android-25"
 
 before_script:
-    - echo yes | sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
-    - echo no | android --verbose create avd --force --name PF --device "pixel" --tag google_apis --abi "google_apis;armeabi-v7a"
-    # -k "system-images;android-25;google_apis;armeabi-v7a" 
+    - echo y | sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
+    - echo "no" | android --verbose create avd -n PF -k "system-images;android-25;google_apis;armeabi-v7a" -b google_apis/armeabi-v7a -f
+    # -k "system-images;android-25;google_apis;armeabi-v7a" --abi "google_apis;armeabi-v7a" --tag google_apis --device "pixel" --name PF --force 
     # - echo no | android create avd --force -n PF -t android-28 --abi armeabi-v7a
     - $ANDROID_HOME/emulator/emulator -avd PF -no-skin -no-audio -no-window &
     - android-wait-for-emulator
     - adb shell input keyevent 82 &
 
 script:
+    - avd devices
     - "./gradlew assemble" # Build
     # - ./gradlew clean connectedCheck
     # - chmod +x ./gradlew
