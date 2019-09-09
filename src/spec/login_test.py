@@ -1,5 +1,5 @@
 import unittest
-from src.utility.webdriver import Driver
+from src.utility.appiumdriver import Driver
 from src.locators.home_screen_locators import HomeLocators
 from src.locators.login_screen_locators import LoginLocators
 
