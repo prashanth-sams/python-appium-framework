@@ -1,5 +1,5 @@
 dump/
 .DS_Store
-src/support/helpers.py
+src/utility/helpers.py
 __pycache__/
  *.pyc
