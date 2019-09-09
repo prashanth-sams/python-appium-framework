@@ -1,7 +1,7 @@
 import unittest
 import pdb
 from time import sleep
-from src.utility.webdriver import Driver
+from src.utility.appiumdriver import Driver
 from src.locators.home_screen_locators import HomeLocators
 
 class HomeTest(Driver):
