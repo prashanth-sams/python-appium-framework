@@ -1,16 +1,13 @@
 import unittest
-from src.support.webdriver import Driver
+from src.utility.webdriver import Driver
 from src.locators.home_screen_locators import HomeLocators
 from src.locators.login_screen_locators import LoginLocators
 
-class LoginTest(unittest.TestCase):
+class LoginTest(Driver):
 
-    def setUp(self):
-        self.driver = Driver().driver
-    
-    def tearDown(self):
-        self.driver.quit()
-    
+    def __init__(self, driver):
+        Driver.__init__(self, driver)
+        
     def test_login(self):
         self.driver.find_element_by_id(HomeLocators.loginMenu).click()
         self.driver.find_element_by_id(LoginLocators.inputField).send_keys("johnsmith@gmail.com")
