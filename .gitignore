@@ -1,7 +1,5 @@
 dump/
 .DS_Store
-src/__pycache__
-src/spec/__pycache__
-src/support/__pycache__
-src/locators/__pycache__
 src/support/helpers.py
+__pycache__/
+ *.pyc

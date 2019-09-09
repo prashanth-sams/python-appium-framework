@@ -1,6 +1,7 @@
 sudo: required
 language: android
 jdk: oraclejdk8
+image: thyrlian/android-sdk
 
 android:
     components:
@@ -44,12 +45,13 @@ before_install:
     - npm install appium-doctor
     - "./node_modules/.bin/appium-doctor"
     - "./node_modules/.bin/appium --log-level info > appium_log.txt &"
+    - sdkmanager tools
     # - echo yes | sdkmanager "build-tools;25.0.2"
     # - echo yes | sdkmanager "platforms;android-25"
 
 before_script:
     - echo y | sdkmanager "system-images;android-25;google_apis;armeabi-v7a"
-    - echo "no" | android --verbose create avd -n PF -k "system-images;android-25;google_apis;armeabi-v7a" -b google_apis/armeabi-v7a -f
+    - echo "no" | avdmanager --verbose create avd -n PF -k "system-images;android-25;google_apis;armeabi-v7a" -b google_apis/armeabi-v7a -f
     # -k "system-images;android-25;google_apis;armeabi-v7a" --abi "google_apis;armeabi-v7a" --tag google_apis --device "pixel" --name PF --force 
     # - echo no | android create avd --force -n PF -t android-28 --abi armeabi-v7a
     - $ANDROID_HOME/emulator/emulator -avd PF -no-skin -no-audio -no-window &
