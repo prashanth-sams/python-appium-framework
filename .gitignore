@@ -3,3 +3,4 @@ dump/
 src/utility/helpers.py
 __pycache__/
  *.pyc
+ .travis.yml
