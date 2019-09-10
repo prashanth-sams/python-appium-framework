@@ -1,2 +1,3 @@
 Appium-Python-Client
 pytest
+allure-pytest

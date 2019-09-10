@@ -9,6 +9,19 @@ pip3 install -r requirements.txt
 ```
 python3 -m pytest src/spec/*
 ```
+## Allure Report
+- Download allure commandline 
+https://github.com/allure-framework/allure2/releases
 
+> runner
+```
+python3 -m pytest src/spec/* --alluredir=report
+```
+>  generate report
+```
+allure serve report/
+```
 ## Support
 - [x] Page Objects
+- [x] Screenshot on failure
+- [x] Allure report

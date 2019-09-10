@@ -1,6 +1,8 @@
 dump/
 .DS_Store
-src/utility/helpers.py
+src/utility/helpers_old.py
 __pycache__/
  *.pyc
  .travis.yml
+ screenshots/
+ report/
