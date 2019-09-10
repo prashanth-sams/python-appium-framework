@@ -24,4 +24,5 @@ allure serve report/
 ## Support
 - [x] Page Objects
 - [x] Screenshot on failure
+- [x] HTML report
 - [x] Allure report
