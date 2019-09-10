@@ -21,7 +21,12 @@ python3 -m pytest src/spec/* --alluredir=report
 ```
 allure serve report/
 ```
+## HTML Report
+```
+python3 -m pytest src/spec/*.py* --html=report/report.html
+```
 ## Support
 - [x] Page Objects
 - [x] Screenshot on failure
+- [x] HTML report
 - [x] Allure report
