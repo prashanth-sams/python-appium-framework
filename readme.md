@@ -7,7 +7,7 @@ pip3 install -r requirements.txt
 ```
 ## Runner
 ```
-python3 -m pytest src/spec/*
+python3 -m pytest src/spec/* --app=android
 ```
 ## Allure Report
 - Download allure commandline 
@@ -26,7 +26,10 @@ allure serve report/
 python3 -m pytest src/spec/*.py* --html=report/report.html
 ```
 ## Support
-- [x] Page Objects
+- [x] Locator strategy
+- [x] Hooks (unittest)
 - [x] Screenshot on failure
 - [x] HTML report
 - [x] Allure report
+- [x] CLI arguments as a fixture (Pytest)
+- [x] Runner (Pytest)
