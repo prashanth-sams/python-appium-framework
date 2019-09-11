@@ -25,6 +25,10 @@ allure serve report/
 ```
 python3 -m pytest src/spec/*.py* --html=report/report.html
 ```
+## Rerun failures
+```
+python3 -m pytest src/spec/home_test.py:19 --app=android --reruns 1
+```
 ## Support
 - [x] Locator strategy
 - [x] Hooks (unittest)
@@ -32,5 +36,7 @@ python3 -m pytest src/spec/*.py* --html=report/report.html
 - [x] HTML report
 - [x] Allure report
 - [x] CLI arguments as a fixture (Pytest)
-- [x] Runner (Pytest)
 - [x] Logger
+- [x] Runner (Pytest)
+- [x] Runner percentage with style (Pytest)
+- [x] Re-run failures (Pytest)
