@@ -2,3 +2,7 @@ Appium-Python-Client
 pytest
 allure-pytest
 pytest-html
+pytest-parallel
+pytest-xdist
+pytest-rerunfailures
+pytest-sugar
