@@ -3,7 +3,7 @@ import unittest
 import sys, os
 import pdb
 from datetime import datetime
-import argparse
+import pytest
 
 class Driver(unittest.TestCase):
     
@@ -11,12 +11,21 @@ class Driver(unittest.TestCase):
         unittest.TestCase.__init__(self, driver)
         
     def setUp(self):
-        desired_caps = {}
-        desired_caps['platformName'] = 'Android'
-        desired_caps['platformVersion'] = ''
-        desired_caps['deviceName'] = 'PF'
-        desired_caps['appPackage'] = 'com.wdiodemoapp'
-        desired_caps['appActivity'] = 'com.wdiodemoapp.MainActivity'
+        Driver.cli
+        
+        if self.app == 'ios':
+            desired_caps = {}
+            desired_caps['platformName'] = 'ios'
+            desired_caps['platformVersion'] = ''
+            desired_caps['deviceName'] = 'PF'
+            
+        elif self.app == 'android':
+            desired_caps = {}
+            desired_caps['platformName'] = 'Android'
+            desired_caps['platformVersion'] = ''
+            desired_caps['deviceName'] = 'PF'
+            desired_caps['appPackage'] = 'com.wdiodemoapp'
+            desired_caps['appActivity'] = 'com.wdiodemoapp.MainActivity'
         
         self.driver = webdriver.Remote("http://0.0.0.0:4723/wd/hub", desired_caps)
 
@@ -33,6 +42,10 @@ class Driver(unittest.TestCase):
                     os.makedirs('screenshots')
                     
                 self.driver.save_screenshot(f"screenshots/{test_name}_{now}.png")
-    
+
+    @pytest.fixture(autouse=True)
+    def cli(self, app):
+        self.app = app
+
 if __name__ == '__main__':
     unittest.main()
