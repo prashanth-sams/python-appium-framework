@@ -33,3 +33,4 @@ python3 -m pytest src/spec/*.py* --html=report/report.html
 - [x] Allure report
 - [x] CLI arguments as a fixture (Pytest)
 - [x] Runner (Pytest)
+- [x] Logger
