@@ -25,19 +25,37 @@ class Driver(unittest.TestCase):
         Driver.cli
         
         logging.info("Configuring desired capabilities")
-        if self.app == 'ios':
-            desired_caps = {}
-            desired_caps['platformName'] = 'ios'
-            desired_caps['platformVersion'] = ''
-            desired_caps['deviceName'] = 'PF'
-            
-        elif self.app == 'android':
-            desired_caps = {}
-            desired_caps['platformName'] = 'Android'
-            desired_caps['platformVersion'] = ''
-            desired_caps['deviceName'] = 'PF'
-            desired_caps['appPackage'] = 'com.wdiodemoapp'
-            desired_caps['appActivity'] = 'com.wdiodemoapp.MainActivity'
+        if os.getenv('PYTEST_XDIST_WORKER'):
+            if self.app == 'ios':
+                desired_caps = {}
+                desired_caps['platformName'] = 'ios'
+                desired_caps['platformVersion'] = ''
+                desired_caps['deviceName'] = 'PF'
+                
+            elif self.app == 'android':
+                desired_caps = {}
+                desired_caps['platformName'] = 'Android'
+                desired_caps['platformVersion'] = ''
+                desired_caps['deviceName'] = 'PF_Nexus'
+                desired_caps['wdaLocalPort'] = Driver.wda_port(self)
+                desired_caps['udid'] = Driver.android_device_name(self)
+                desired_caps['appPackage'] = 'com.wdiodemoapp'
+                desired_caps['appActivity'] = 'com.wdiodemoapp.MainActivity'
+        
+        else:
+            if self.app == 'ios':
+                desired_caps = {}
+                desired_caps['platformName'] = 'ios'
+                desired_caps['platformVersion'] = ''
+                desired_caps['deviceName'] = 'PF'
+                
+            elif self.app == 'android':
+                desired_caps = {}
+                desired_caps['platformName'] = 'Android'
+                desired_caps['platformVersion'] = ''
+                desired_caps['deviceName'] = 'PF'
+                desired_caps['appPackage'] = 'com.wdiodemoapp'
+                desired_caps['appActivity'] = 'com.wdiodemoapp.MainActivity'    
         
         logging.info("Initiating Appium driver")
         self.driver = webdriver.Remote("http://0.0.0.0:4723/wd/hub", desired_caps)
@@ -60,6 +78,20 @@ class Driver(unittest.TestCase):
     @pytest.fixture(autouse=True)
     def cli(self, app):
         self.app = app
+    
+    def wda_port(self):
+        if os.getenv('PYTEST_XDIST_WORKER') == 'gw1':
+            return 8101
+        else: # include 'master' and 'gw0'
+            return 8100
+
+    def android_device_name(self):
+        if os.getenv('PYTEST_XDIST_WORKER') == 'gw0':
+            return 'emulator-5554'
+        elif os.getenv('PYTEST_XDIST_WORKER') == 'gw1':
+            return 'emulator-5556'
+        else: # default
+            return 'emulator-5554'
 
 if __name__ == '__main__':
     unittest.main()

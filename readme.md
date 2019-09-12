@@ -9,6 +9,18 @@ pip3 install -r requirements.txt
 ```
 python3 -m pytest src/spec/* --app=android
 ```
+## Rerun failures
+```
+python3 -m pytest src/spec/home_test.py:19 --app=android --reruns 1
+```
+## Parallel Test
+```
+python3 -m pytest src/spec/home_test.py --app=android -v -n2
+```
+## HTML Report
+```
+python3 -m pytest src/spec/*.py* --html=report/report.html
+```
 ## Allure Report
 - Download allure commandline 
 https://github.com/allure-framework/allure2/releases
@@ -21,14 +33,6 @@ python3 -m pytest src/spec/* --alluredir=report
 ```
 allure serve report/
 ```
-## HTML Report
-```
-python3 -m pytest src/spec/*.py* --html=report/report.html
-```
-## Rerun failures
-```
-python3 -m pytest src/spec/home_test.py:19 --app=android --reruns 1
-```
 ## Support
 - [x] Locator strategy
 - [x] Hooks (unittest)
@@ -39,4 +43,5 @@ python3 -m pytest src/spec/home_test.py:19 --app=android --reruns 1
 - [x] Logger
 - [x] Runner (Pytest)
 - [x] Runner percentage with style (Pytest)
+- [x] Parallel Tests (Pytest) x2
 - [x] Re-run failures (Pytest)
