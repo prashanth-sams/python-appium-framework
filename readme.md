@@ -45,3 +45,6 @@ allure serve report/
 - [x] Runner percentage with style (Pytest)
 - [x] Parallel Tests (Pytest) x2
 - [x] Re-run failures (Pytest)
+
+
+![](https://i.imgur.com/IcN8IZu.png)
