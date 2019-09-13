@@ -6,7 +6,7 @@ from src.locators.login_screen_locators import LoginLocators
 class LoginTest(Driver):
 
     def __init__(self, driver):
-        Driver.__init__(self, driver)
+        super().__init__(driver)
         
     def test_login(self):
         self.driver.find_element_by_id(HomeLocators.loginMenu).click()

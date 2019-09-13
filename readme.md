@@ -11,7 +11,7 @@ python3 -m pytest src/spec/* --app=android
 ```
 ## Rerun failures
 ```
-python3 -m pytest src/spec/home_test.py:19 --app=android --reruns 1
+python3 -m pytest src/spec/home_test.py --app=android --reruns 1
 ```
 ## Parallel Test
 ```

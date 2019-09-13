@@ -7,7 +7,7 @@ from src.locators.home_screen_locators import HomeLocators
 class HomeTest(Driver):
     
     def __init__(self, driver):
-        Driver.__init__(self, driver)
+        super().__init__(driver)
     
     def test_home_1(self):
         self.driver.find_element_by_id(HomeLocators.homeMenu)
