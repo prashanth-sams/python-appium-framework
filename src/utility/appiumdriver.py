@@ -16,7 +16,7 @@ logging.basicConfig(
 class Driver(unittest.TestCase):
     
     def __init__(self, driver):
-        unittest.TestCase.__init__(self, driver)
+        super().__init__(driver)
         
     def setUp(self):
         """
