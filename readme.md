@@ -53,4 +53,4 @@ python3 -m pytest src/spec/* --alluredir=report
 allure serve report/
 ```
 
-![](https://i.imgur.com/IcN8IZu.png)
+![](https://i.imgur.com/q3cVDb1.png)
