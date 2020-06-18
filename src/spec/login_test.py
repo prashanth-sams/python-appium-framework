@@ -12,5 +12,5 @@ class LoginTest(Driver):
     def test_login(self):
         self.driver.find_element_by_xpath(HomeLocators.loginMenu).click()
         self.driver.find_element(by=By.XPATH, value=LoginLocators.inputField).send_keys("johnsmith@gmail.com")
-        self.driver.find_element_by_xpath(LoginLocators.passwordField).send_keys("password")
+        self.driver.find_elements_by_accessibility_id(LoginLocators.passwordField)[0].send_keys("password")
         self.driver.find_element_by_xpath(LoginLocators.loginButton).click()
