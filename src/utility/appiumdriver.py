@@ -6,6 +6,7 @@ from datetime import datetime
 import pytest
 import logging
 
+logging.FileHandler('app.log', mode='w')
 logging.basicConfig(
     filename='app.log',
     format='%(asctime)s - %(levelname)s: %(message)s',
