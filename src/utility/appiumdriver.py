@@ -60,6 +60,9 @@ class Driver(unittest.TestCase):
         logging.info("Initiating Appium driver")
         self.driver = webdriver.Remote("http://0.0.0.0:4723/wd/hub", desired_caps)
 
+        # set waits
+        self.driver.implicitly_wait(10)  # waits 10 seconds
+
     def tearDown(self):
         Driver.screenshot_on_failure(self)
         self.driver.quit()
