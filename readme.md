@@ -2,6 +2,20 @@
 [![Build Status](https://travis-ci.org/prashanth-sams/python-appium-framework.svg?branch=master)](https://travis-ci.org/prashanth-sams/python-appium-framework)
 > Complete Python Appium framework in 360 degree 
 
+## Features
+- [x] Locator strategy
+- [x] Hooks (unittest)
+- [x] Screenshot on failure
+- [x] HTML report
+- [x] JSON report
+- [x] Allure report
+- [x] CLI arguments as a fixture (Pytest)
+- [x] Logger
+- [x] Runner (Pytest)
+- [x] Runner percentage with style (Pytest)
+- [x] Parallel Tests (Pytest) x2
+- [x] Re-run failures (Pytest)
+
 ## Installation
 Install python libraries
 
@@ -38,19 +52,5 @@ python3 -m pytest src/spec/* --alluredir=report
 ```
 allure serve report/
 ```
-## Support
-- [x] Locator strategy
-- [x] Hooks (unittest)
-- [x] Screenshot on failure
-- [x] HTML report
-- [x] JSON report
-- [x] Allure report
-- [x] CLI arguments as a fixture (Pytest)
-- [x] Logger
-- [x] Runner (Pytest)
-- [x] Runner percentage with style (Pytest)
-- [x] Parallel Tests (Pytest) x2
-- [x] Re-run failures (Pytest)
-
 
 ![](https://i.imgur.com/IcN8IZu.png)
