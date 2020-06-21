@@ -1,8 +1,7 @@
-import unittest
-import pdb
-from time import sleep
-from src.utility.appiumdriver import Driver
+from src.helpers.appiumdriver import Driver
 from src.locators.home_screen_locators import HomeLocators
+from src.helpers.app import App
+
 
 class HomeTest(Driver):
     
@@ -10,12 +9,11 @@ class HomeTest(Driver):
         super().__init__(driver)
     
     def test_home_1(self):
-        self.driver.find_element_by_id(HomeLocators.homeMenu)
-        self.driver.find_element_by_id(HomeLocators.loginMenu)
-        self.driver.find_element_by_id(HomeLocators.formsMenu)
-        self.driver.find_element_by_id(HomeLocators.swipeMenu)
-        # pdb.set_trace()
-    
+        App.element(self, HomeLocators.homeMenu)
+        App.element(self, HomeLocators.loginMenu)
+        App.element(self, HomeLocators.formsMenu)
+        App.element(self, HomeLocators.swipeMenu)
+
     def test_home_2(self):
-        self.driver.find_element_by_id(HomeLocators.homeMenu)
-        self.driver.find_element_by_id(HomeLocators.loginMenu)
+        App.element(self, HomeLocators.homeMenu)
+        App.element(self, HomeLocators.loginMenu)
