@@ -1,6 +1,6 @@
 from src.helpers.appiumdriver import Driver
-from src.locators.home_screen_locators import HomeLocators
-from src.locators.login_screen_locators import LoginLocators
+from src.locators.android.home_screen_locators import HomeLocators
+from src.locators.android.login_screen_locators import LoginLocators
 from src.helpers.app import App
 
 
