@@ -5,11 +5,14 @@
 ## Features
 - [x] Locator strategy
 - [x] Hooks (unittest)
+- [x] Helper methods
+- [x] Database connectivity + SSH Tunneling
 - [x] Screenshot on failure
 - [x] HTML report
 - [x] JSON report
 - [x] Allure report
 - [x] CLI arguments as a fixture (Pytest)
+- [x] In-house data storage
 - [x] Logger
 - [x] Runner (Pytest)
 - [x] Runner percentage with style (Pytest)
@@ -37,9 +40,9 @@ python3 -m pytest src/spec/home_test.py --app=android -v -n2
 
 ## Test Report
 #### HTML Report
-    python3 -m pytest src/spec/*.py* --html=report/report.html
+    python3 -m pytest src/spec/*.py --html=report/report.html
 #### JSON Report
-    python3 -m pytest src/spec/*.py* --json=report/json/report.json
+    python3 -m pytest src/spec/*.py --json=report/json/report.json
 #### Allure Report
 - Download allure commandline 
 https://github.com/allure-framework/allure2/releases
@@ -53,4 +56,4 @@ python3 -m pytest src/spec/* --alluredir=report
 allure serve report/
 ```
 
-![](https://i.imgur.com/q3cVDb1.png)
+![](https://i.imgur.com/q4rKprd.png)

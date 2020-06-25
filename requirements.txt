@@ -8,3 +8,5 @@ pytest-xdist
 pytest-rerunfailures
 pytest-sugar
 pytest-json
+pymysql
+sshtunnel
