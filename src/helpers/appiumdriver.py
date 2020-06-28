@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 import pytest
 import logging
+from src.helpers.business import *
 
 logging.FileHandler('app.log', mode='w')
 logging.basicConfig(
@@ -23,6 +24,7 @@ class Driver(unittest.TestCase):
         """
         This method instantiates the appium driver
         """
+        global desired_caps
         Driver.cli
 
         logging.info("Configuring desired capabilities")
@@ -41,7 +43,8 @@ class Driver(unittest.TestCase):
                     'deviceName': 'PF',
                     'wdaLocalPort': Driver.wda_port(self),
                     'udid': Driver.android_device_name(self),
-                    'app': '/Users/prashanth/Projects/apps/app-staging-debug.apk'
+                    'app': '/Users/prashanth/Projects/apps/app-staging-debug.apk',
+                    'noReset': True
                 }
 
         else:
@@ -57,17 +60,26 @@ class Driver(unittest.TestCase):
                     'platformName': 'Android',
                     'platformVersion': '',
                     'deviceName': 'PF',
-                    'app': '/Users/prashanth/Projects/apps/app-staging-debug.apk'
+                    'app': '/Users/prashanth/Projects/apps/app-staging-debug.apk',
+                    'noReset': True
                 }
 
         logging.info("Initiating Appium driver")
         self.driver = webdriver.Remote("http://0.0.0.0:4723/wd/hub", desired_caps)
+
+        """
+        update local storage
+        Enable and modify this to add local storage
+        """
+        # os.system("adb push $(pwd)/data/app_prefs_file.xml /data/data/<packageName>/shared_prefs")
+        # self.driver.launch_app()
 
         # set waits
         self.driver.implicitly_wait(5)  # waits 5 seconds
 
     def tearDown(self):
         Driver.screenshot_on_failure(self)
+        notify_slack(self)
         self.driver.quit()
 
     def screenshot_on_failure(self):

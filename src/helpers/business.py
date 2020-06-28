@@ -1,5 +1,7 @@
 import datetime
 import pymysql
+import requests
+import json
 from sshtunnel import SSHTunnelForwarder
 
 
@@ -35,6 +37,45 @@ def get_db_results(db_cursor):
     desc = [d[0] for d in db_cursor.description]
     results = [dotdict(dict(zip(desc, res))) for res in db_cursor.fetchall()]
     return results
+
+
+def notify_slack(self):
+    """
+    modify web_hook_url with apt data
+    """
+    web_hook_url = 'https://hooks.slack.com/services/xxxxxxx/xxxxxxx/xxxxxxxxxxxxxxxx'
+    slack_msg = {
+        "attachments": [
+            {
+                "fallback": "Required plain-text summary of the attachment.",
+                "color": "#36a64f",
+                # "pretext": "Optional text that appears above the attachment block",
+                "author_name": "Mobile Automation Results",
+                "author_link": "https://twitter.com/prashanthsams",
+                "author_icon": "https://avatars3.githubusercontent.com/u/2948696?s=460&v=4",
+                "title": "Lead Tracker - Android",
+                "title_link": "https://twitter.com/prashanthsams",
+                "text": "Optional text",
+                "fields": [
+                    {
+                        "title": f"AE => :white_check_mark: {str(4)} Passed :exclamation: {str(0)} Failed",
+                        # "value": "3",
+                        "short": False
+                    },
+                    {
+                        "title": f"SA => :white_check_mark: {str(6)} Passed :exclamation: {str(0)} Failed",
+                        "short": False
+                    }
+                ],
+                "image_url": "http://my-website.com/path/to/image.jpg",
+                "thumb_url": "http://example.com/path/to/thumb.png",
+                "footer": "Property Finder",
+                "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
+                "ts": int(datetime.datetime.now().strftime("%s"))
+            }
+        ]
+    }
+    requests.post(web_hook_url, data=json.dumps(slack_msg))
 
 
 class dotdict(dict):

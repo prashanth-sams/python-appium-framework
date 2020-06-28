@@ -8,6 +8,8 @@
 - [x] Helper methods
 - [x] Database connectivity + SSH Tunneling
 - [x] Screenshot on failure
+- [x] Handle local storage
+- [x] Slack notify
 - [x] HTML report
 - [x] JSON report
 - [x] Allure report
