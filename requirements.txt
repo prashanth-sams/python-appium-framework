@@ -1,6 +1,6 @@
-Appium-Python-Client
-selenium
-pytest
+Appium-Python-Client~=1.0.1
+selenium~=3.141.0
+pytest~=5.4.3
 allure-pytest
 pytest-html
 pytest-parallel
@@ -8,5 +8,6 @@ pytest-xdist
 pytest-rerunfailures
 pytest-sugar
 pytest-json
-pymysql
-sshtunnel
+pymysql~=0.9.3
+sshtunnel~=0.1.5
+requests~=2.24.0
