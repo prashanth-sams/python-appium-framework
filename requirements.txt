@@ -11,3 +11,4 @@ pytest-json
 pymysql~=0.9.3
 sshtunnel~=0.1.5
 requests~=2.24.0
+invoke
