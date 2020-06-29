@@ -2,6 +2,7 @@ import datetime
 import pymysql
 import requests
 import json
+import random
 from sshtunnel import SSHTunnelForwarder
 
 
@@ -39,43 +40,73 @@ def get_db_results(db_cursor):
     return results
 
 
-def notify_slack(self):
+def notify_slack():
     """
     modify web_hook_url with apt data
     """
     web_hook_url = 'https://hooks.slack.com/services/xxxxxxx/xxxxxxx/xxxxxxxxxxxxxxxx'
+
+    with open("./report/json/report.json") as jsonFile:
+        jsonObject = json.load(jsonFile)
+        jsonFile.close()
+
+    passed = int(status_count(jsonObject, 'passed'))
+    failed = int(status_count(jsonObject, 'failed'))
+    color = '#36a64f' if failed == 0 else '#a30001'
+    text = "#Build Passed" if failed == 0 else "#Build Failed"
+
     slack_msg = {
         "attachments": [
             {
-                "fallback": "Required plain-text summary of the attachment.",
-                "color": "#36a64f",
-                # "pretext": "Optional text that appears above the attachment block",
+                "fallback": "Excuse Me! I've something for you!",
+                "color": f"{color}",
+                "pretext": f"@here {quote()}",
                 "author_name": "Mobile Automation Results",
                 "author_link": "https://twitter.com/prashanthsams",
                 "author_icon": "https://avatars3.githubusercontent.com/u/2948696?s=460&v=4",
-                "title": "Lead Tracker - Android",
+                "title": "Your App - Android",
                 "title_link": "https://twitter.com/prashanthsams",
-                "text": "Optional text",
+                "text": f"{text}",
                 "fields": [
                     {
-                        "title": f"AE => :white_check_mark: {str(4)} Passed :exclamation: {str(0)} Failed",
+                        "title": f"AE => :white_check_mark: {str(passed)} Passed :exclamation: {str(failed)} Failed",
                         # "value": "3",
                         "short": False
                     },
                     {
-                        "title": f"SA => :white_check_mark: {str(6)} Passed :exclamation: {str(0)} Failed",
+                        "title": f"SA => :white_check_mark: {str(passed)} Passed :exclamation: {str(failed)} Failed",
                         "short": False
                     }
                 ],
                 "image_url": "http://my-website.com/path/to/image.jpg",
                 "thumb_url": "http://example.com/path/to/thumb.png",
-                "footer": "Property Finder",
+                "footer": "Appium Framework",
                 "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
                 "ts": int(datetime.datetime.now().strftime("%s"))
             }
         ]
     }
     requests.post(web_hook_url, data=json.dumps(slack_msg))
+
+
+def quote():
+    quotes = [
+        """Tests without assertions are not tests
+                                    - Prashanth Sams
+        """,
+        "In God we Trust for the rest we Test"
+    ]
+    return random.choice(quotes)
+
+
+def status_count(jsonObject, status):
+    try:
+        return jsonObject['report']['summary'][f'{status}']
+    except KeyError as e:
+        try:
+            return jsonObject['data'][0]['attributes']['summary'][f'{status}']
+        except KeyError as e:
+            return 0
 
 
 class dotdict(dict):

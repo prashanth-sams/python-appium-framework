@@ -71,7 +71,7 @@ class Driver(unittest.TestCase):
         update local storage
         Enable and modify this to add local storage
         """
-        # os.system("adb push $(pwd)/data/app_prefs_file.xml /data/data/<packageName>/shared_prefs")
+        # os.system("adb push $(pwd)/data/<your_app_prefs_file>.xml /data/data/<packageName>/shared_prefs")
         # self.driver.launch_app()
 
         # set waits

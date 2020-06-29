@@ -9,6 +9,7 @@
 - [x] Database connectivity + SSH Tunneling
 - [x] Screenshot on failure
 - [x] Handle local storage
+- [x] Shell Runner
 - [x] Slack notify
 - [x] HTML report
 - [x] JSON report
@@ -30,6 +31,10 @@ Install python libraries
 > Default
 ```shell script
 python3 -m pytest src/spec/* --app=android
+```
+> Shell runner
+```shell script
+bash runner/android/smoke_run.sh
 ```
 > Rerun failures
 ```shell script
