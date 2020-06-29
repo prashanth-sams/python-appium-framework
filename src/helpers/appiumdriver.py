@@ -79,7 +79,6 @@ class Driver(unittest.TestCase):
 
     def tearDown(self):
         Driver.screenshot_on_failure(self)
-        notify_slack(self)
         self.driver.quit()
 
     def screenshot_on_failure(self):
