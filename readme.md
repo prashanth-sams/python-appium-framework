@@ -9,7 +9,7 @@
 - [x] Database connectivity + SSH Tunneling
 - [x] Screenshot on failure
 - [x] Handle local storage
-- [x] Shell Runner
+- [x] Bash Runner
 - [x] Slack notify
 - [x] HTML report
 - [x] JSON report
@@ -28,13 +28,13 @@ Install python libraries
     pip3 install -r requirements.txt
 
 ## Test Runner
+> Bash runner
+```shell script
+bash runner/android/smoke_run.sh
+```
 > Default
 ```shell script
 python3 -m pytest src/spec/* --app=android
-```
-> Shell runner
-```shell script
-bash runner/android/smoke_run.sh
 ```
 > Rerun failures
 ```shell script
@@ -63,4 +63,4 @@ python3 -m pytest src/spec/* --alluredir=report
 allure serve report/
 ```
 
-![](https://i.imgur.com/q4rKprd.png)
+![](https://i.imgur.com/qrxJrQ2.png)
