@@ -1,9 +1,9 @@
 from src.helpers.appiumdriver import Driver
-from src.locators.android.home_screen_locators import HomeLocators
+from src.screens.android.home_screen import HomeLocators
 from src.helpers.app import App
 
 
-class HomeTest(Driver):
+class TestHome(Driver):
     
     def __init__(self, driver):
         super().__init__(driver)

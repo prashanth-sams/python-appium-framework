@@ -3,7 +3,7 @@ from appium.webdriver.common.mobileby import MobileBy
 
 class HomeLocators(object):
     """
-    home screen locators
+    home screen screens
     """
     loginMenu = (MobileBy.XPATH, "//android.view.ViewGroup[@content-desc='Login']/android.widget.TextView")
     formsMenu = (MobileBy.ACCESSIBILITY_ID, "Forms")

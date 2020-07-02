@@ -6,19 +6,6 @@ import random
 from sshtunnel import SSHTunnelForwarder
 
 
-def subtract_days(days=7):
-    return datetime.date.today() - datetime.timedelta(days)
-
-
-def past_day_with_double_subtraction(first_check_day, second_check_day):
-    return (subtract_days(first_check_day) - datetime.timedelta(second_check_day)).strftime("%d")
-
-
-def roi_weekly_header(first_check_day, second_check_day):
-    return str(past_day_with_double_subtraction(first_check_day, second_check_day) + ' - ' + subtract_days(
-        first_check_day).strftime("%d-%b-%Y").replace('-', ' '))
-
-
 def db(query):
     with SSHTunnelForwarder(
             ('<remote-host>', 22),
@@ -46,12 +33,12 @@ def notify_slack():
     """
     web_hook_url = 'https://hooks.slack.com/services/xxxxxxx/xxxxxxx/xxxxxxxxxxxxxxxx'
 
-    with open("./report/json/report.json") as jsonFile:
-        jsonObject = json.load(jsonFile)
-        jsonFile.close()
+    with open("./report/json/report.json") as json_file:
+        json_object = json.load(json_file)
+        json_file.close()
 
-    passed = int(status_count(jsonObject, 'passed'))
-    failed = int(status_count(jsonObject, 'failed'))
+    passed = int(status_count(json_object, 'passed'))
+    failed = int(status_count(json_object, 'failed'))
     color = '#36a64f' if failed == 0 else '#a30001'
     text = "#Build Passed" if failed == 0 else "#Build Failed"
 
@@ -91,20 +78,18 @@ def notify_slack():
 
 def quote():
     quotes = [
-        """Tests without assertions are not tests
-                                    - Prashanth Sams
-        """,
+        "Tests without assertions are not tests - Prashanth Sams",
         "In God we Trust for the rest we Test"
     ]
     return random.choice(quotes)
 
 
-def status_count(jsonObject, status):
+def status_count(json_object, status):
     try:
-        return jsonObject['report']['summary'][f'{status}']
+        return json_object['report']['summary'][f'{status}']
     except KeyError as e:
         try:
-            return jsonObject['data'][0]['attributes']['summary'][f'{status}']
+            return json_object['data'][0]['attributes']['summary'][f'{status}']
         except KeyError as e:
             return 0
 
