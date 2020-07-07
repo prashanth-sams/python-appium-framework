@@ -21,7 +21,7 @@ class App(Driver):
             except Exception as e:
                 logging.error(f"element failed attempt - {locator}")
                 n -= 1
-                if n is 1: raise NoSuchElementException("Could not locate element with value: %s" % str(locator))
+                if n == 1: raise NoSuchElementException("Could not locate element with value: %s" % str(locator))
 
     def elements(self, locator):
         return self.driver.find_elements(*locator)
@@ -39,7 +39,7 @@ class App(Driver):
                 logging.error(f'assert_text failed attempt - {locator}')
                 time.sleep(0.5)
                 n -= 1
-                if n is 1: assert App.element(self, locator).text == text
+                if n == 1: assert App.element(self, locator).text == text
 
     def is_displayed(self, locator, expected=True, n=3):
         """
@@ -53,7 +53,7 @@ class App(Driver):
             except Exception as e:
                 logging.error(f'is_displayed failed attempt - {locator}')
                 n -= 1
-                if n is 1: assert False == expected
+                if n == 1: assert False == expected
 
     def tap(self, locator):
         actions = TouchAction(self.driver)
