@@ -11,6 +11,7 @@
 - [x] Handle local storage
 - [x] Bash Runner
 - [x] Slack notify
+- [x] Define environment variable
 - [x] HTML report
 - [x] JSON report
 - [x] Allure report
@@ -21,6 +22,7 @@
 - [x] Runner percentage with style (Pytest)
 - [x] Parallel Tests (Pytest) x2
 - [x] Re-run failures (Pytest)
+- [x] Test script validation
 
 ## Installation
 Install python libraries
@@ -63,4 +65,4 @@ python3 -m pytest src/spec/* --alluredir=report
 allure serve report/
 ```
 
-![](https://i.imgur.com/qrxJrQ2.png)
+![](https://i.imgur.com/u7lBA0x.png)
