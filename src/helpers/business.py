@@ -4,6 +4,7 @@ import requests
 import json
 import random
 from sshtunnel import SSHTunnelForwarder
+from settings import *
 
 
 def db(query):
@@ -31,7 +32,7 @@ def notify_slack():
     """
     modify web_hook_url with apt data
     """
-    web_hook_url = 'https://hooks.slack.com/services/xxxxxxx/xxxxxxx/xxxxxxxxxxxxxxxx'
+    web_hook_url = f'https://hooks.slack.com/services/{SLACK_TOKEN}'
 
     with open("./report/json/report.json") as json_file:
         json_object = json.load(json_file)
