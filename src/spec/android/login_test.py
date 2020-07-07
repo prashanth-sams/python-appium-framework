@@ -12,9 +12,5 @@ class TestLogin(Driver):
     def test_login(self):
         App.click(self, HomeScreen.loginMenu)
         App.send_keys(self, LoginScreen.inputField, "johnsmith@gmail.com")
-        """
-        Need fix here
-        """
-        # App.elements(self, LoginLocators.passwordField)[0].send_keys("password")
-        # App.send_keys(self, LoginLocators.passwordField[0], "password")
+        App.send_keys(self, LoginScreen.passwordField, "password", index=0)
         App.tap(self, LoginScreen.inputField)

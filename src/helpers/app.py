@@ -21,56 +21,80 @@ class App(Driver):
             except Exception as e:
                 logging.error(f"element failed attempt - {locator}")
                 n -= 1
-                if n is 1: raise NoSuchElementException("Could not locate element with value: %s" % str(locator))
+                if n == 1: raise NoSuchElementException("Could not locate element with value: %s" % str(locator))
 
     def elements(self, locator):
         return self.driver.find_elements(*locator)
 
-    def assert_text(self, locator, text, n=20):
+    # need to fix unlimited loop & text to be under arbitrary keyword
+    def assert_text(self, locator, text, n=20, **kwargs):
         """
         assert element's text by polling if match is not found
         maximum poll #20 with approx. ~10 secs
         """
         while n > 1:
             try:
-                assert App.element(self, locator).text == text
+                if len(kwargs) == 0:
+                    assert App.element(self, locator).text == text
+                else:
+                    assert App.element(self, locator)[kwargs['index']].text == text
                 break
             except Exception as e:
                 logging.error(f'assert_text failed attempt - {locator}')
                 time.sleep(0.5)
                 n -= 1
-                if n is 1: assert App.element(self, locator).text == text
+                if len(kwargs) == 0:
+                    if n == 1: assert App.element(self, locator).text == text
+                else:
+                    if n == 1: assert App.element(self, locator)[kwargs['index']].text == text
 
-    def is_displayed(self, locator, expected=True, n=3):
+    def is_displayed(self, locator, expected=True, n=3, **kwargs):
         """
         assert boolean value by polling if match is not found
         maximum poll #3 with approx. ~10 secs
         """
         while n > 1:
             try:
-                assert self.driver.find_element(*locator).is_displayed() == expected
+                if len(kwargs) == 0:
+                    assert self.driver.find_element(*locator).is_displayed() == expected
+                else:
+                    assert self.driver.find_element(*locator)[kwargs['index']].is_displayed() == expected
                 break
             except Exception as e:
                 logging.error(f'is_displayed failed attempt - {locator}')
                 n -= 1
-                if n is 1: assert False == expected
+                if n == 1: assert False == expected
 
-    def tap(self, locator):
+    def tap(self, locator, **kwargs):
         actions = TouchAction(self.driver)
-        actions.tap(App.element(self, locator))
+        if len(kwargs) == 0:
+            actions.tap(App.element(self, locator))
+        else:
+            actions.tap(App.element(self, locator)[kwargs['index']])
         actions.perform()
 
-    def double_tap(self, locator):
+    def double_tap(self, locator, **kwargs):
         actions = TouchAction(self.driver)
-        actions.tap(App.element(self, locator), count=2)
+        if len(kwargs) == 0:
+            actions.tap(App.element(self, locator), count=2)
+        else:
+            actions.tap(App.element(self, locator)[kwargs['index']], count=2)
         actions.perform()
 
-    def click(self, locator):
-        App.element(self, locator).click()
+    def click(self, locator, **kwargs):
+        if len(kwargs) == 0:
+            App.element(self, locator).click()
+        else:
+            App.elements(self, locator)[kwargs['index']].click()
 
-    def send_keys(self, locator, text):
-        App.element(self, locator).send_keys(text)
+    # text to be under arbitrary keyword
+    def send_keys(self, locator, text, **kwargs):
+        if len(kwargs) == 0:
+            App.element(self, locator).send_keys(text)
+        else:
+            App.elements(self, locator)[kwargs['index']].send_keys(text)
 
+    # Need fix for kwargs elements
     def skip_if_not_available(self, locator, action='click', text=''):
         try:
             if action == 'click': App.click(self, locator)
