@@ -15,23 +15,26 @@ class App(Driver):
         locate an element by polling if element not found
         maximum poll #2 with approx. ~10 secs
         """
+        x = iter(CustomCall())
         while n > 1:
             try:
                 return self.driver.find_element(*locator)
             except Exception as e:
-                logging.error(f"element failed attempt - {locator}")
+                logging.error(f"element failed attempt {next(x)} - {locator}")
                 n -= 1
                 if n == 1: raise NoSuchElementException("Could not locate element with value: %s" % str(locator))
 
     def elements(self, locator):
         return self.driver.find_elements(*locator)
 
-    # need to fix unlimited loop & text to be under arbitrary keyword
     def assert_text(self, locator, text, n=20, **kwargs):
         """
         assert element's text by polling if match is not found
         maximum poll #20 with approx. ~10 secs
         """
+        App.is_displayed(self, locator, True)
+
+        x = iter(CustomCall())
         while n > 1:
             try:
                 if len(kwargs) == 0:
@@ -40,7 +43,7 @@ class App(Driver):
                     assert App.element(self, locator)[kwargs['index']].text == text
                 break
             except Exception as e:
-                logging.error(f'assert_text failed attempt - {locator}')
+                logging.error(f'assert_text failed attempt {next(x)}- {locator}')
                 time.sleep(0.5)
                 n -= 1
                 if len(kwargs) == 0:
@@ -53,6 +56,7 @@ class App(Driver):
         assert boolean value by polling if match is not found
         maximum poll #3 with approx. ~10 secs
         """
+        x = iter(CustomCall())
         while n > 1:
             try:
                 if len(kwargs) == 0:
@@ -61,7 +65,7 @@ class App(Driver):
                     assert self.driver.find_element(*locator)[kwargs['index']].is_displayed() == expected
                 break
             except Exception as e:
-                logging.error(f'is_displayed failed attempt - {locator}')
+                logging.error(f'is_displayed failed attempt {next(x)}- {locator}')
                 n -= 1
                 if n == 1: assert False == expected
 
@@ -101,3 +105,15 @@ class App(Driver):
             if action == 'send_keys': App.send_keys(self, locator, text)
         except Exception as e:
             print('skip this step if not available')
+
+
+class CustomCall:
+
+    def __iter__(self):
+        self.a = 1
+        return self
+
+    def __next__(self):
+        k = self.a
+        self.a += 1
+        return k
