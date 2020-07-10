@@ -30,37 +30,25 @@ Install python libraries
     pip3 install -r requirements.txt
 
 ## Test Runner
-> Bash runner
-```shell script
-bash runner/android/smoke_run.sh
-```
-> Default
-```shell script
-python3 -m pytest src/spec/* --app=android
-```
-> Rerun failures
-```shell script
-python3 -m pytest src/spec/home_test.py --app=android --reruns 1
-```
-> Parallel Test
-```shell script
-python3 -m pytest src/spec/home_test.py --app=android -v -n2
-```
+
+| Action         | Command            |
+| -------------- | ---------          |
+| Bash runner    | `bash runner/android/smoke_run.sh` |
+| Default        | `python3 -m pytest src/spec/* --app=android` |
+| Rerun failures | `python3 -m pytest src/spec/home_test.py --app=android --reruns 1` |
+| Parallel Test  | `python3 -m pytest src/spec/home_test.py --app=android -v -n2` |
 
 ## Test Report
-#### HTML Report
-    python3 -m pytest src/spec/*.py --html=report/report.html
-#### JSON Report
-    python3 -m pytest src/spec/*.py --json=report/json/report.json
-#### Allure Report
+| Type           | Command            |
+| -------------- | ---------          |
+| HTML Report    | `python3 -m pytest src/spec/*.py --html=report/report.html` |
+| JSON Report    | `python3 -m pytest src/spec/*.py --json=report/json/report.json` |
+| Allure Report    | `python3 -m pytest src/spec/* --alluredir=report` |
+
 - Download allure commandline 
 https://github.com/allure-framework/allure2/releases
 
-> runner
-```
-python3 -m pytest src/spec/* --alluredir=report
-```
->  generate report
+>  generate allure report
 ```
 allure serve report/
 ```
