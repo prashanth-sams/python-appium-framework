@@ -100,11 +100,25 @@ class App(Driver):
 
     # Need fix for kwargs elements
     def skip_if_not_available(self, locator, action='click', text=''):
-        try:
-            if action == 'click': App.click(self, locator)
-            if action == 'send_keys': App.send_keys(self, locator, text)
-        except Exception as e:
-            print('skip this step if not available')
+        {
+            'click': App.click(self, locator),
+            'send_keys': App.send_keys(self, locator, text)
+        }.get(action, 'Action not available')
+
+    def get_screen_size(self):
+        return self.driver.get_window_size()
+
+    def back(self):
+        """
+        generally minimize app
+        """
+        self.driver.back()
+
+    def close(self):
+        self.driver.close_app()
+
+    def reset(self):
+        self.driver.reset()
 
 
 class CustomCall:
