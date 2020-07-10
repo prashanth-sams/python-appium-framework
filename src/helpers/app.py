@@ -5,6 +5,13 @@ import time
 import logging
 
 
+def keyword_check(kwargs):
+    kc = {}
+    if 'index' in kwargs: kc['index'] = 'elements'
+    if 'index' not in kwargs: kc['index'] = 'element'
+    return ''.join(kc.values())
+
+
 class App(Driver):
 
     def __init__(self, driver):
@@ -24,9 +31,21 @@ class App(Driver):
                 n -= 1
                 if n == 1: raise NoSuchElementException("Could not locate element with value: %s" % str(locator))
 
-    def elements(self, locator):
-        return self.driver.find_elements(*locator)
+    def elements(self, locator, n=3):
+        """
+        locate element list by polling if the element list is not found
+        maximum poll #2 with approx. ~10 secs
+        """
+        x = iter(CustomCall())
+        while n > 1:
+            try:
+                return self.driver.find_elements(*locator)
+            except Exception as e:
+                logging.error(f"element list failed attempt {next(x)} - {locator}")
+                n -= 1
+                if n == 1: raise NoSuchElementException("Could not locate element list with value: %s" % str(locator))
 
+    # need refactor on condition
     def assert_text(self, locator, text, n=20, **kwargs):
         """
         assert element's text by polling if match is not found
@@ -51,6 +70,7 @@ class App(Driver):
                 else:
                     if n == 1: assert App.element(self, locator)[kwargs['index']].text == text
 
+    # need refactor on condition
     def is_displayed(self, locator, expected=True, n=3, **kwargs):
         """
         assert boolean value by polling if match is not found
@@ -70,40 +90,80 @@ class App(Driver):
                 if n == 1: assert False == expected
 
     def tap(self, locator, **kwargs):
+        """
+        custom wrapped single tap method
+        -> wait until display
+        -> element(s)
+        """
+        App.is_displayed(self, locator, True)
+
         actions = TouchAction(self.driver)
-        if len(kwargs) == 0:
-            actions.tap(App.element(self, locator))
-        else:
-            actions.tap(App.element(self, locator)[kwargs['index']])
-        actions.perform()
+        return {
+            'element': lambda x: actions.tap(App.element(self, locator)).perform(),
+            'elements': lambda x: actions.tap(App.elements(self, locator)[kwargs['index']]).perform()
+        }[keyword_check(kwargs)]('x')
 
     def double_tap(self, locator, **kwargs):
+        """
+        custom wrapped double tap method
+        -> wait for element until display
+        -> element(s)
+        """
+        App.is_displayed(self, locator, True)
+
         actions = TouchAction(self.driver)
-        if len(kwargs) == 0:
-            actions.tap(App.element(self, locator), count=2)
-        else:
-            actions.tap(App.element(self, locator)[kwargs['index']], count=2)
-        actions.perform()
+        return {
+            'element': lambda x: actions.tap(App.element(self, locator), count=2).perform(),
+            'elements': lambda x: actions.tap(App.elements(self, locator)[kwargs['index']], count=2).perform()
+        }[keyword_check(kwargs)]('x')
 
     def click(self, locator, **kwargs):
-        if len(kwargs) == 0:
-            App.element(self, locator).click()
-        else:
-            App.elements(self, locator)[kwargs['index']].click()
+        """
+        custom wrapped click method
+        -> wait for element until display
+        -> element(s)
+        """
+        App.is_displayed(self, locator, True)
 
-    # text to be under arbitrary keyword
-    def send_keys(self, locator, text, **kwargs):
-        if len(kwargs) == 0:
-            App.element(self, locator).send_keys(text)
-        else:
-            App.elements(self, locator)[kwargs['index']].send_keys(text)
+        return {
+            'element': lambda x: App.element(self, locator).click(),
+            'elements': lambda x: App.elements(self, locator)[kwargs['index']].click()
+        }[keyword_check(kwargs)]('x')
 
-    # Need fix for kwargs elements
-    def skip_if_not_available(self, locator, action='click', text=''):
-        {
-            'click': App.click(self, locator),
-            'send_keys': App.send_keys(self, locator, text)
-        }.get(action, 'Action not available')
+    def send_keys(self, locator, text='', **kwargs):
+        """
+        custom wrapped send_keys method
+        -> wait for element until display
+        -> element(s)
+        """
+        App.is_displayed(self, locator, True)
+
+        return {
+            'element': lambda text: App.element(self, locator).send_keys(text),
+            'elements': lambda text: App.elements(self, locator)[kwargs['index']].send_keys(text)
+        }[keyword_check(kwargs)](text)
+
+    def skip_if_not_available(self, locator, action='click', text='', **kwargs):
+        """
+        optional method
+        -> element(s)
+        """
+        try:
+            if keyword_check(kwargs) == 'element':
+                return {
+                    'click': lambda x: App.click(self, locator),
+                    'send_keys': lambda x: App.send_keys(self, locator, text=text),
+                    'tap': lambda x: TouchAction(self.driver).tap(App.element(self, locator)).perform()
+                }[action]('x')
+            elif keyword_check(kwargs) == 'elements':
+                return {
+                    'click': lambda x: App.click(self, locator, index=kwargs['index']),
+                    'send_keys': lambda x: App.send_keys(self, locator, text=text, index=kwargs['index']),
+                    'tap': lambda x: TouchAction(self.driver).tap(
+                        App.elements(self, locator)[kwargs['index']]).perform()
+                }[action]('x')
+        except Exception as e:
+            print('skip this step if not available')
 
     def get_screen_size(self):
         return self.driver.get_window_size()
