@@ -53,4 +53,4 @@ https://github.com/allure-framework/allure2/releases
 allure serve report/
 ```
 
-![](https://i.imgur.com/u7lBA0x.png)
+![](https://i.imgur.com/11CNiXW.png)

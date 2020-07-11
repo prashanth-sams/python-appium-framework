@@ -31,9 +31,11 @@ class Driver(unittest.TestCase):
         if os.getenv('PYTEST_XDIST_WORKER'):
             if self.app == 'ios':
                 desired_caps = {
-                    'platformName': 'ios',
-                    'platformVersion': '',
-                    'deviceName': 'PF'
+                    'deviceName': 'iPhone 8',
+                    'platformName': 'iOS',
+                    'platformVersion': '13.3',
+                    'automationName': 'XCUITest',
+                    'app': '/Users/prashanth/Projects/apps/iOS-Simulator-NativeDemoApp-0.2.1.app'
                 }
 
             elif self.app == 'android':
@@ -50,9 +52,11 @@ class Driver(unittest.TestCase):
         else:
             if self.app == 'ios':
                 desired_caps = {
-                    'platformName': 'ios',
-                    'platformVersion': '',
-                    'deviceName': 'PF'
+                    'deviceName': 'iPhone 8',
+                    'platformName': 'iOS',
+                    'platformVersion': '13.3',
+                    'automationName': 'XCUITest',
+                    'app': '/Users/prashanth/Projects/apps/iOS-Simulator-NativeDemoApp-0.2.1.app'
                 }
 
             elif self.app == 'android':
