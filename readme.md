@@ -8,6 +8,7 @@
 - [x] Helper methods
 - [x] Database connectivity + SSH Tunneling
 - [x] Screenshot on failure
+- [x] Docker support for Android
 - [x] Handle local storage
 - [x] Bash Runner
 - [x] Slack notify
@@ -38,6 +39,16 @@ Install python libraries
 | Rerun failures | `python3 -m pytest src/spec/home_test.py --app=android --reruns 1` |
 | Parallel Test  | `python3 -m pytest src/spec/home_test.py --app=android -v -n2` |
 
+#### Docker Run
+> Android test - x1 run
+```shell script
+docker run --privileged -d -p 6080:6080 -p 4723:4723 -p 5554:5554 -p 5555:5555 \ 
+-v $(pwd)/data/apps/Android-NativeDemoApp-0.2.1.apk:/root/tmp/Android-NativeDemoApp-0.2.1.apk \
+-e DEVICE="Samsung Galaxy S9" -e APPIUM=true --name android-container \
+budtmo/docker-android-x86-11.0
+```
+**noVnc interface:** http://localhost:6080
+
 ## Test Report
 | Type           | Command            |
 | -------------- | ---------          |
@@ -53,4 +64,4 @@ https://github.com/allure-framework/allure2/releases
 allure serve report/
 ```
 
-![](https://i.imgur.com/11CNiXW.png)
+![](https://i.imgur.com/5vjklOb.png)

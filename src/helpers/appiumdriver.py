@@ -52,11 +52,12 @@ class Driver(unittest.TestCase):
         else:
             if self.app == 'ios':
                 desired_caps = {
-                    'deviceName': 'iPhone 8',
+                    'deviceName': 'iPhone 6S',
                     'platformName': 'iOS',
+                    'udid': 'xxxxxxxxxxxxxx',
                     'platformVersion': '13.3',
                     'automationName': 'XCUITest',
-                    'app': '/Users/prashanth/Projects/apps/iOS-Simulator-NativeDemoApp-0.2.1.app'
+                    'app': '/Users/prashanth/Projects/apps/iOS-RealDevice-NativeDemoApp-0.2.1.ipa'
                 }
 
             elif self.app == 'android':
