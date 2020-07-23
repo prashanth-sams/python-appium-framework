@@ -180,6 +180,9 @@ class App(Driver):
     def reset(self):
         self.driver.reset()
 
+    def launch_app(self):
+        self.driver.launch_app()
+
 
 class CustomCall:
 
