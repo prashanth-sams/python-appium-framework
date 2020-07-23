@@ -34,7 +34,7 @@ class Driver(unittest.TestCase):
                     'platformName': 'iOS',
                     'platformVersion': '13.3',
                     'automationName': 'XCUITest',
-                    'app': '/Users/prashanth/Projects/apps/iOS-Simulator-NativeDemoApp-0.2.1.app'
+                    'app': f'{os.popen("pwd").read().rstrip()}/data/apps/iOS-Simulator-NativeDemoApp-0.2.1.app'
                 }
 
             elif self.app == 'android':
@@ -44,7 +44,7 @@ class Driver(unittest.TestCase):
                     'deviceName': 'PF',
                     'wdaLocalPort': Driver.wda_port(self),
                     'udid': Driver.android_device_name(self),
-                    'app': '/Users/prashanth/Projects/apps/app-staging-debug.apk',
+                    'app': f'{os.popen("pwd").read().rstrip()}/data/apps/app-staging-debug.apk',
                     'noReset': True
                 }
 
@@ -64,19 +64,19 @@ class Driver(unittest.TestCase):
     def android(self):
         if self.device == 'emulator':
             return dict(platformName='Android', platformVersion='', deviceName='PF',
-                        app='/Users/prashanth/Projects/apps/Android-NativeDemoApp-0.2.1.apk', noReset=True)
+                        app=f'{os.popen("pwd").read().rstrip()}/data/apps/Android-NativeDemoApp-0.2.1.apk', noReset=True)
         elif self.device == 'real device':
             return dict(platformName='Android', platformVersion='', deviceName='PF',
-                        app='/Users/prashanth/Projects/apps/Android-NativeDemoApp-0.2.1.apk', noReset=True)
+                        app=f'{os.popen("pwd").read().rstrip()}/data/apps/Android-NativeDemoApp-0.2.1.apk', noReset=True)
 
     def ios(self):
         if self.device == 'simulator':
             return dict(platformName='iOS', platformVersion='13.3', deviceName='iPhone 11',
-                        app='/Users/prashanth/Projects/apps/iOS-RealDevice-NativeDemoApp-0.2.1.app', automationName='XCUITest')
+                        app=f'{os.popen("pwd").read().rstrip()}/data/apps/iOS-RealDevice-NativeDemoApp-0.2.1.app', automationName='XCUITest')
         elif self.device == 'real device':
             return dict(platformName='iOS', platformVersion='14.0', deviceName='iPhone X',
-                        udid='xxxxxxxxxxxxxxxxxxxxxxxxxxxx', useNewWDA=True,
-                        app='/Users/prashanth/Projects/apps/iOS-RealDevice-NativeDemoApp-0.2.1.ipa', automationName='XCUITest')
+                        udid=f'{UDID}', useNewWDA=True,
+                        app=f'{os.popen("pwd").read().rstrip()}/data/apps/iOS-RealDevice-NativeDemoApp-0.2.1.ipa', automationName='XCUITest')
 
     def tearDown(self):
         Driver.screenshot_on_failure(self)
