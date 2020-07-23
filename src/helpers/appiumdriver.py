@@ -72,11 +72,13 @@ class Driver(unittest.TestCase):
     def ios(self):
         if self.device == 'simulator':
             return dict(platformName='iOS', platformVersion='13.3', deviceName='iPhone 11',
-                        app=f'{os.popen("pwd").read().rstrip()}/data/apps/iOS-RealDevice-NativeDemoApp-0.2.1.app', automationName='XCUITest')
+                        app=f'{os.popen("pwd").read().rstrip()}/data/apps/iOS-Simulator-NativeDemoApp-0.2.1.app',
+                        automationName='XCUITest')
         elif self.device == 'real device':
             return dict(platformName='iOS', platformVersion='14.0', deviceName='iPhone X',
                         udid=f'{UDID}', useNewWDA=True,
-                        app=f'{os.popen("pwd").read().rstrip()}/data/apps/iOS-RealDevice-NativeDemoApp-0.2.1.ipa', automationName='XCUITest')
+                        app=f'{os.popen("pwd").read().rstrip()}/data/apps/iOS-RealDevice-NativeDemoApp-0.2.1.ipa',
+                        automationName='XCUITest')
 
     def tearDown(self):
         Driver.screenshot_on_failure(self)
