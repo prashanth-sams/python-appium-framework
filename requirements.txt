@@ -1,8 +1,7 @@
 Appium-Python-Client~=1.0.2
 selenium~=3.141.0
-pytest~=5.4.3
+pytest~=6.0.1
 allure-pytest
-pytest-html
 pytest-parallel
 pytest-xdist
 pytest-rerunfailures
@@ -13,3 +12,4 @@ sshtunnel~=0.1.5
 requests~=2.24.0
 invoke~=1.4.1
 python-dotenv
+pytest-html-reporter~=0.0.9

@@ -46,31 +46,6 @@ class App(Driver):
                 if n == 1: raise NoSuchElementException("Could not locate element list with value: %s" % str(locator))
 
     # need refactor on condition
-    def assert_text(self, locator, text, n=20, **kwargs):
-        """
-        assert element's text by polling if match is not found
-        maximum poll #20 with approx. ~10 secs
-        """
-        App.is_displayed(self, locator, True)
-
-        x = iter(CustomCall())
-        while n > 1:
-            try:
-                if len(kwargs) == 0:
-                    assert App.element(self, locator).text == text
-                else:
-                    assert App.element(self, locator)[kwargs['index']].text == text
-                break
-            except Exception as e:
-                logging.error(f'assert_text failed attempt {next(x)}- {locator}')
-                time.sleep(0.5)
-                n -= 1
-                if len(kwargs) == 0:
-                    if n == 1: assert App.element(self, locator).text == text
-                else:
-                    if n == 1: assert App.element(self, locator)[kwargs['index']].text == text
-
-    # need refactor on condition
     def is_displayed(self, locator, expected=True, n=3, **kwargs):
         """
         assert boolean value by polling if match is not found
@@ -88,6 +63,22 @@ class App(Driver):
                 logging.error(f'is_displayed failed attempt {next(x)}- {locator}')
                 n -= 1
                 if n == 1: assert False == expected
+
+    # need refactor on condition
+    def is_exist(self, locator, expected=True, n=3, **kwargs):
+        """
+        returns boolean value by polling if match is not found or not
+        maximum poll #3 with approx. ~10 secs
+        """
+        while n > 1:
+            try:
+                if len(kwargs) == 0 and self.driver.find_element(*locator).is_displayed() == expected:
+                    return True
+                elif self.driver.find_element(*locator)[kwargs['index']].is_displayed() == expected:
+                    return True
+            except Exception as e:
+                n -= 1
+                if n == 1: return False
 
     def tap(self, locator, **kwargs):
         """
@@ -182,6 +173,66 @@ class App(Driver):
 
     def launch_app(self):
         self.driver.launch_app()
+
+    def swipe(self, start, dest):
+        """
+        custom wrapped swipe / scroll method
+        -> wait for element until display - source and destination
+        -> element(s)
+        """
+        if type(start) is tuple:
+            source_element = App.elements(self, start[0])[int(start[1])]
+        else:
+            source_element = App.element(self, start)
+
+        if type(dest) is tuple:
+            target_element = App.elements(self, dest[0])[int(dest[1])]
+        else:
+            target_element = App.element(self, dest)
+
+        self.driver.scroll(source_element, target_element)
+
+    # need refactor on condition
+    def assert_text(self, locator, text, n=20, **kwargs):
+        """
+        assert element's text by polling if match is not found
+        maximum poll #20 with approx. ~10 secs
+        """
+        App.is_displayed(self, locator, True)
+
+        x = iter(CustomCall())
+        while n > 1:
+            try:
+                if len(kwargs) == 0:
+                    assert App.element(self, locator).text == text
+                else:
+                    assert App.element(self, locator)[kwargs['index']].text == text
+                break
+            except Exception as e:
+                logging.error(f'assert_text failed attempt {next(x)}- {locator}')
+                time.sleep(0.5)
+                n -= 1
+                if len(kwargs) == 0:
+                    if n == 1: assert App.element(self, locator).text == text
+                else:
+                    if n == 1: assert App.element(self, locator)[kwargs['index']].text == text
+
+    def assert_size(self, locator, param):
+        """
+        assert elements size by polling if match is found
+        maximum poll #20 with approx. ~10 secs
+        """
+        App.is_displayed(self, locator, True)
+
+        case = param.rsplit(None, 1)[0]
+        value = int(param.rsplit(None, 1)[1])
+
+        if case in ['more than', 'greater than', 'above', '>']:
+            assert App.elements(self, locator).__len__() > value
+        elif case in ['less than', 'below', '<']:
+            assert App.elements(self, locator).__len__() < value
+        elif case in ['equal to', '==']:
+            assert App.elements(self, locator).__len__() == value
 
 
 class CustomCall:
