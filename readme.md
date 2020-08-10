@@ -64,4 +64,42 @@ https://github.com/allure-framework/allure2/releases
 allure serve report/
 ```
 
+## Wrapper Methods
+| Methods                  | Usage                                                      |
+| --------------           | ---------                                                  |
+| element                  | `App.element(self, locator)`                               |
+| elements                 | `App.elements(self, locactor)`                             |
+| is_displayed             | `App.is_displayed(self, locator)`                          |
+| is_displayed > elements  | `App.is_displayed(self, locator, index=0)`                 |
+| is_exist                 | `App.is_exist(self, locator)`                              |
+| is_exist > elements      | `App.is_exist(self, locator, index=0)`                     |
+| tap                      | `App.tap(self, locator)`                                   |
+| tap > elements           | `App.tap(self, locator, index=0)`                          |
+| double_tap               | `App.double_tap(self, locator)`                            |
+| double_tap > elements    | `App.double_tap(self, locator, index=0)`                   |
+| click                    | `App.click(self, locator)`                                 |
+| click > elements         | `App.click(self, locator, index=0)`                        |
+| swipe                    | `App.swipe(self, start=locator, dest=locator)`             |
+| swipe > elements         | `App.swipe(self, start=(locator, 2), dest=(locator, 1))`   |
+| send_keys                | `App.send_keys(self, locator, 'text')`                     |
+| send_keys > elements     | `App.send_keys(self, locator, 'text', index=0)`            |
+| get_screen_size          | `App.get_screen_size(self)`                                |
+| back                     | `App.back(self)`                                           |
+| close                    | `App.close(self)`                                          |
+| reset                    | `App.reset(self)`                                          | 
+| launch_app               | `App.send_keys(self, locator, 'text'`                      | 
+| tap_by_coordinates       | `App.tap_by_coordinates(self, x=338, y=204)`               |
+| assert_text              | `App.assert_text(self, 'actual', 'expected')`              |
+| assert_text > elements   | `App.assert_text(self, 'actual', 'expected', index=0)`     |
+| assert_size              | `App.assert_size(self, locator, 'more than 1')`            |
+|                          | `App.assert_size(self, locator, 'greater than 1')`         |
+|                          | `App.assert_size(self, locator, 'above 1')`                |
+|                          | `App.assert_size(self, locator, '> 1')`                    |
+|                          | `App.assert_size(self, locator, 'less than 1')`            |
+|                          | `App.assert_size(self, locator, 'below 1')`                |
+|                          | `App.assert_size(self, locator, '< 1')`                    |
+|                          | `App.assert_size(self, locator, 'equal to 1')`             |
+|                          | `App.assert_size(self, locator, '== 1')`                   |
+| assert_boolean           | `App.assert_boolean(True, True)`                           |
+
 ![](https://i.imgur.com/5vjklOb.png)

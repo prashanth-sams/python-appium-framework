@@ -192,6 +192,11 @@ class App(Driver):
 
         self.driver.scroll(source_element, target_element)
 
+    def tap_by_coordinates(self, x, y):
+        time.sleep(2)
+        actions = TouchAction(self.driver)
+        actions.tap(x=x, y=y).perform()
+
     # need refactor on condition
     def assert_text(self, locator, text, n=20, **kwargs):
         """
@@ -233,6 +238,10 @@ class App(Driver):
             assert App.elements(self, locator).__len__() < value
         elif case in ['equal to', '==']:
             assert App.elements(self, locator).__len__() == value
+
+    @staticmethod
+    def assert_boolean(actual, expected=True):
+        assert actual == expected
 
 
 class CustomCall:
