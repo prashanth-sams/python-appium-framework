@@ -57,10 +57,11 @@ class App(Driver):
                 if len(kwargs) == 0:
                     assert self.driver.find_element(*locator).is_displayed() == expected
                 else:
-                    assert self.driver.find_element(*locator)[kwargs['index']].is_displayed() == expected
+                    assert self.driver.find_elements(*locator)[kwargs['index']].is_displayed() == expected
                 break
             except Exception as e:
                 logging.error(f'is_displayed failed attempt {next(x)}- {locator}')
+                time.sleep(0.5)
                 n -= 1
                 if n == 1: assert False == expected
 
@@ -74,7 +75,7 @@ class App(Driver):
             try:
                 if len(kwargs) == 0 and self.driver.find_element(*locator).is_displayed() == expected:
                     return True
-                elif self.driver.find_element(*locator)[kwargs['index']].is_displayed() == expected:
+                elif self.driver.find_elements(*locator)[kwargs['index']].is_displayed() == expected:
                     return True
             except Exception as e:
                 n -= 1
@@ -94,13 +95,13 @@ class App(Driver):
             'elements': lambda x: actions.tap(App.elements(self, locator)[kwargs['index']]).perform()
         }[keyword_check(kwargs)]('x')
 
-    def double_tap(self, locator, **kwargs):
+    def double_tap(self, locator, n=3, **kwargs):
         """
         custom wrapped double tap method
         -> wait for element until display
         -> element(s)
         """
-        App.is_displayed(self, locator, True)
+        App.is_displayed(self, locator, True, n=n)
 
         actions = TouchAction(self.driver)
         return {
@@ -108,18 +109,26 @@ class App(Driver):
             'elements': lambda x: actions.tap(App.elements(self, locator)[kwargs['index']], count=2).perform()
         }[keyword_check(kwargs)]('x')
 
-    def click(self, locator, **kwargs):
+    def click(self, locator, n=3, **kwargs):
         """
         custom wrapped click method
         -> wait for element until display
         -> element(s)
         """
-        App.is_displayed(self, locator, True)
+        App.sleep(kwargs)
+        App.is_displayed(self, locator, True, n=n)
 
         return {
             'element': lambda x: App.element(self, locator).click(),
             'elements': lambda x: App.elements(self, locator)[kwargs['index']].click()
         }[keyword_check(kwargs)]('x')
+
+    @staticmethod
+    def sleep(kwargs):
+        try:
+            time.sleep(kwargs['sleep'])
+        except KeyError:
+            print('skip sleep')
 
     def send_keys(self, locator, text='', **kwargs):
         """
@@ -130,31 +139,9 @@ class App(Driver):
         App.is_displayed(self, locator, True)
 
         return {
-            'element': lambda text: App.element(self, locator).send_keys(text),
-            'elements': lambda text: App.elements(self, locator)[kwargs['index']].send_keys(text)
+            'element': lambda text: App.element(self, locator).clear() and App.element(self, locator).send_keys(text),
+            'elements': lambda text: App.elements(self, locator)[kwargs['index']].clear() and App.elements(self, locator)[kwargs['index']].send_keys(text)
         }[keyword_check(kwargs)](text)
-
-    def skip_if_not_available(self, locator, action='click', text='', **kwargs):
-        """
-        optional method
-        -> element(s)
-        """
-        try:
-            if keyword_check(kwargs) == 'element':
-                return {
-                    'click': lambda x: App.click(self, locator),
-                    'send_keys': lambda x: App.send_keys(self, locator, text=text),
-                    'tap': lambda x: TouchAction(self.driver).tap(App.element(self, locator)).perform()
-                }[action]('x')
-            elif keyword_check(kwargs) == 'elements':
-                return {
-                    'click': lambda x: App.click(self, locator, index=kwargs['index']),
-                    'send_keys': lambda x: App.send_keys(self, locator, text=text, index=kwargs['index']),
-                    'tap': lambda x: TouchAction(self.driver).tap(
-                        App.elements(self, locator)[kwargs['index']]).perform()
-                }[action]('x')
-        except Exception as e:
-            print('skip this step if not available')
 
     def get_screen_size(self):
         return self.driver.get_window_size()
@@ -180,15 +167,15 @@ class App(Driver):
         -> wait for element until display - source and destination
         -> element(s)
         """
-        if type(start) is tuple:
-            source_element = App.elements(self, start[0])[int(start[1])]
-        else:
+        if type(start[1]) is not int:
             source_element = App.element(self, start)
-
-        if type(dest) is tuple:
-            target_element = App.elements(self, dest[0])[int(dest[1])]
         else:
+            source_element = App.elements(self, start[0])[int(start[1])]
+
+        if type(dest[1]) is not int:
             target_element = App.element(self, dest)
+        else:
+            target_element = App.elements(self, dest[0])[int(dest[1])]
 
         self.driver.scroll(source_element, target_element)
 
@@ -211,7 +198,7 @@ class App(Driver):
                 if len(kwargs) == 0:
                     assert App.element(self, locator).text == text
                 else:
-                    assert App.element(self, locator)[kwargs['index']].text == text
+                    assert App.elements(self, locator)[kwargs['index']].text == text
                 break
             except Exception as e:
                 logging.error(f'assert_text failed attempt {next(x)}- {locator}')
@@ -220,14 +207,14 @@ class App(Driver):
                 if len(kwargs) == 0:
                     if n == 1: assert App.element(self, locator).text == text
                 else:
-                    if n == 1: assert App.element(self, locator)[kwargs['index']].text == text
+                    if n == 1: assert App.elements(self, locator)[kwargs['index']].text == text
 
     def assert_size(self, locator, param):
         """
         assert elements size by polling if match is found
         maximum poll #20 with approx. ~10 secs
         """
-        App.is_displayed(self, locator, True)
+        App.is_displayed(self, locator, True, index=0)
 
         case = param.rsplit(None, 1)[0]
         value = int(param.rsplit(None, 1)[1])
