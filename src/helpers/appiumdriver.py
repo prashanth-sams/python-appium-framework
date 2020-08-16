@@ -3,16 +3,7 @@ import unittest
 import os
 from datetime import datetime
 import pytest
-import logging
 from src.helpers.business import *
-
-logging.FileHandler('app.log', mode='w')
-logging.basicConfig(
-    filename='app.log',
-    format='%(asctime)s - %(levelname)s: %(message)s',
-    datefmt='%m/%d/%Y %I:%M:%S %p',
-    level=logging.INFO
-)
 
 
 class Driver(unittest.TestCase):
@@ -26,7 +17,7 @@ class Driver(unittest.TestCase):
         """
         global desired_caps
 
-        logging.info("Configuring desired capabilities")
+        self.logger.info("Configuring desired capabilities")
         if os.getenv('PYTEST_XDIST_WORKER'):
             if self.app == 'ios':
                 desired_caps = {
@@ -55,7 +46,7 @@ class Driver(unittest.TestCase):
             elif self.app == 'android':
                 desired_caps = self.android()
 
-        logging.info("Initiating Appium driver")
+        self.logger.info("Initiating Appium driver")
         self.driver = webdriver.Remote("http://0.0.0.0:4723/wd/hub", desired_caps)
 
         # set waits
@@ -89,16 +80,17 @@ class Driver(unittest.TestCase):
         test_name = self._testMethodName
         for self._testMethodName, error in self._outcome.errors:
             if error:
-                logging.error("Taking screenshot on failure")
+                self.logger.error("Taking screenshot on failure")
                 if not os.path.exists('screenshots'):
                     os.makedirs('screenshots')
 
                 self.driver.save_screenshot(f"screenshots/{test_name}_{now}.png")
 
     @pytest.fixture(autouse=True)
-    def cli(self, app, device):
+    def cli(self, app, device, get_logger):
         self.app = app
         self.device = device
+        self.logger = get_logger
 
     def wda_port(self):
         if os.getenv('PYTEST_XDIST_WORKER') == 'gw1':

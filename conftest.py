@@ -1,4 +1,6 @@
+import logging
 import pytest
+
 
 @pytest.hookimpl
 def pytest_addoption(parser):
@@ -15,6 +17,18 @@ def app(request):
 @pytest.fixture(scope="session")
 def device(request):
     return request.config.getoption("--device")
+
+
+@pytest.fixture(scope='session')
+def get_logger():
+    logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
+    ch = logging.FileHandler(r'app.log', mode='w')
+    ch.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s: %(message)s', '%m/%d/%Y %I:%M:%S %p')
+    ch.setFormatter(formatter)
+    logger.addHandler(ch)
+    return logger
 
 # @pytest.fixture(scope='session', autouse=True)
 # def session_setup_teardown():

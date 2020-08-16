@@ -2,7 +2,6 @@ from src.helpers.appiumdriver import Driver
 from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException
 import time
-import logging
 
 
 def keyword_check(kwargs):
@@ -27,7 +26,7 @@ class App(Driver):
             try:
                 return self.driver.find_element(*locator)
             except Exception as e:
-                logging.error(f"element failed attempt {next(x)} - {locator}")
+                self.logger.error(f"element failed attempt {next(x)} - {locator}")
                 n -= 1
                 if n == 1: raise NoSuchElementException("Could not locate element with value: %s" % str(locator))
 
@@ -41,7 +40,7 @@ class App(Driver):
             try:
                 return self.driver.find_elements(*locator)
             except Exception as e:
-                logging.error(f"element list failed attempt {next(x)} - {locator}")
+                self.logger.error(f"element list failed attempt {next(x)} - {locator}")
                 n -= 1
                 if n == 1: raise NoSuchElementException("Could not locate element list with value: %s" % str(locator))
 
@@ -60,7 +59,7 @@ class App(Driver):
                     assert self.driver.find_elements(*locator)[kwargs['index']].is_displayed() == expected
                 break
             except Exception as e:
-                logging.error(f'is_displayed failed attempt {next(x)}- {locator}')
+                self.logger.error(f'is_displayed failed attempt {next(x)}- {locator}')
                 time.sleep(0.5)
                 n -= 1
                 if n == 1: assert False == expected
@@ -201,7 +200,7 @@ class App(Driver):
                     assert App.elements(self, locator)[kwargs['index']].text == text
                 break
             except Exception as e:
-                logging.error(f'assert_text failed attempt {next(x)}- {locator}')
+                self.logger.error(f'assert_text failed attempt {next(x)}- {locator}')
                 time.sleep(0.5)
                 n -= 1
                 if len(kwargs) == 0:
