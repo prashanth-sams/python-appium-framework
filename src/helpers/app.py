@@ -1,6 +1,8 @@
+from selenium.webdriver.support.wait import WebDriverWait
 from src.helpers.appiumdriver import Driver
 from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support import expected_conditions as EC
 import time
 
 
@@ -21,9 +23,12 @@ class App(Driver):
         locate an element by polling if element not found
         maximum poll #2 with approx. ~10 secs
         """
+        wait = WebDriverWait(self.driver, 20)
+
         x = iter(CustomCall())
         while n > 1:
             try:
+                wait.until(EC.visibility_of_element_located(locator))
                 return self.driver.find_element(*locator)
             except Exception as e:
                 self.logger.error(f"element failed attempt {next(x)} - {locator}")
@@ -35,25 +40,30 @@ class App(Driver):
         locate element list by polling if the element list is not found
         maximum poll #2 with approx. ~10 secs
         """
+        wait = WebDriverWait(self.driver, 20)
+
         x = iter(CustomCall())
         while n > 1:
             try:
+                wait.until(EC.visibility_of_any_elements_located(locator))
                 return self.driver.find_elements(*locator)
             except Exception as e:
                 self.logger.error(f"element list failed attempt {next(x)} - {locator}")
                 n -= 1
                 if n == 1: raise NoSuchElementException("Could not locate element list with value: %s" % str(locator))
 
-    # need refactor on condition
     def is_displayed(self, locator, expected=True, n=3, **kwargs):
         """
         assert boolean value by polling if match is not found
         maximum poll #3 with approx. ~10 secs
         """
+        wait = WebDriverWait(self.driver, 20)
+
         x = iter(CustomCall())
         while n > 1:
             try:
                 if len(kwargs) == 0:
+                    wait.until(EC.visibility_of_element_located(locator))
                     assert self.driver.find_element(*locator).is_displayed() == expected
                 else:
                     assert self.driver.find_elements(*locator)[kwargs['index']].is_displayed() == expected
@@ -64,7 +74,6 @@ class App(Driver):
                 n -= 1
                 if n == 1: assert False == expected
 
-    # need refactor on condition
     def is_exist(self, locator, expected=True, n=3, **kwargs):
         """
         returns boolean value by polling if match is not found or not
@@ -122,12 +131,16 @@ class App(Driver):
             'elements': lambda x: App.elements(self, locator)[kwargs['index']].click()
         }[keyword_check(kwargs)]('x')
 
+    def wait_until_disappear(self, locator, n=3, **kwargs):
+        wait = WebDriverWait(self.driver, 25)
+        wait.until(EC.invisibility_of_element_located(locator))
+
     @staticmethod
     def sleep(kwargs):
         try:
             time.sleep(kwargs['sleep'])
         except KeyError:
-            print('skip sleep')
+            pass
 
     def send_keys(self, locator, text='', **kwargs):
         """

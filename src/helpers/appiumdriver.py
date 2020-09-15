@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 import pytest
 from src.helpers.business import *
+from pytest_html_reporter import attach
 
 
 class Driver(unittest.TestCase):
@@ -73,6 +74,7 @@ class Driver(unittest.TestCase):
 
     def tearDown(self):
         Driver.screenshot_on_failure(self)
+        attach(data=self.driver.get_screenshot_as_png())
         self.driver.quit()
 
     def screenshot_on_failure(self):

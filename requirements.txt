@@ -12,4 +12,4 @@ sshtunnel~=0.1.5
 requests~=2.24.0
 invoke~=1.4.1
 python-dotenv
-pytest-html-reporter~=0.1.0
+pytest-html-reporter~=0.2.2
