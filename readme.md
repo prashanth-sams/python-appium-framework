@@ -1,5 +1,4 @@
 # Python Appium Framework
-[![Build Status](https://travis-ci.org/prashanth-sams/python-appium-framework.svg?branch=master)](https://travis-ci.org/prashanth-sams/python-appium-framework)
 > Complete Python Appium framework in 360 degree 
 
 ## Features
