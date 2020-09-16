@@ -238,6 +238,18 @@ class App(Driver):
         elif case in ['equal to', '==']:
             assert App.elements(self, locator).__len__() == value
 
+    def assert_equal(self, actual, expected, n=5):
+        x = iter(CustomCall())
+        while n > 1:
+            try:
+                assert actual == expected
+                break
+            except Exception as e:
+                self.logger.error(f"assert equal attempt {next(x)} - {actual} not matching {expected}")
+                time.sleep(2)
+                n -= 1
+                if n == 1: assert actual == expected
+
     @staticmethod
     def assert_boolean(actual, expected=True):
         assert actual == expected
