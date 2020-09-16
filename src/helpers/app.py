@@ -250,6 +250,21 @@ class App(Driver):
                 n -= 1
                 if n == 1: assert actual == expected
 
+    def assert_equal_ab(self, actual, expected_a, expected_b, n=5):
+        x = iter(CustomCall())
+        while n > 1:
+            try:
+                try:
+                    assert actual == expected_a
+                except Exception as e:
+                    assert actual == expected_b
+                break
+            except Exception as e:
+                self.logger.error(f"assert equal attempt {next(x)} - {actual} not matching {expected_a} or {expected_b}")
+                time.sleep(2)
+                n -= 1
+                if n == 1: assert actual == expected_a
+
     @staticmethod
     def assert_boolean(actual, expected=True):
         assert actual == expected
