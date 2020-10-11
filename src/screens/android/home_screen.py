@@ -10,6 +10,7 @@ class HomeScreen(Driver):
     formsMenu = (MobileBy.ACCESSIBILITY_ID, "Forms")
     homeMenu = (MobileBy.ACCESSIBILITY_ID, "Home")
     swipeMenu = (MobileBy.ACCESSIBILITY_ID, "Swipe")
+    supportLink = (MobileBy.XPATH, '//android.widget.ScrollView[@content-desc="Home-screen"]/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.TextView[3]')
 
     # swipeMenu = {'ANDROID': (MobileBy.ACCESSIBILITY_ID, "Swipe"),'IOS': (MobileBy.ACCESSIBILITY_ID, "Swipe")}
 
