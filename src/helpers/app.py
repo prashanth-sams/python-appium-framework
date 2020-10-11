@@ -238,6 +238,17 @@ class App(Driver):
         elif case in ['equal to', '==']:
             assert App.elements(self, locator).__len__() == value
 
+    def swipe_until(self, locator, start_x=100, start_y=200, end_x=0, end_y=0, duration=0, count=10):
+        self.driver.implicitly_wait(0.5)  # waits half a second
+        for i in range(count):
+            try:
+                self.driver.find_element(*locator).is_displayed()
+                break
+            except Exception as e:
+                self.driver.swipe(start_x, start_y, end_x, end_y, duration)
+
+        self.driver.implicitly_wait(5)  # waits 5 seconds
+
     def assert_equal(self, actual, expected, n=5):
         x = iter(CustomCall())
         while n > 1:

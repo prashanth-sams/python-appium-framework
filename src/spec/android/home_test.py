@@ -15,6 +15,7 @@ class TestHome(Driver):
         App.element(self, HomeScreen.loginMenu)
         App.element(self, HomeScreen.formsMenu)
         App.element(self, HomeScreen.swipeMenu)
+        App.swipe_until(self, HomeScreen.supportLink, start_x=144, start_y=434)
         # App.assert_text(self, HomeLocators.loginMenu, 'Leads')
 
     @pytest.mark.home

@@ -51,9 +51,9 @@ budtmo/docker-android-x86-11.0
 ## Test Report
 | Type           | Command            |
 | -------------- | ---------          |
-| HTML Report    | `python3 -m pytest src/spec/*.py --html=report/report.html` |
-| JSON Report    | `python3 -m pytest src/spec/*.py --json=report/json/report.json` |
-| Allure Report    | `python3 -m pytest src/spec/* --alluredir=report` |
+| HTML Report    | `python3 -m pytest src/spec/android/*.py --html-report=report/report.html --app=android` |
+| JSON Report    | `python3 -m pytest src/spec/android/*.py --json=report/json/report.json --app=android` |
+| Allure Report    | `python3 -m pytest src/spec/android/* --alluredir=report --app=android` |
 
 - Download allure commandline 
 https://github.com/allure-framework/allure2/releases
@@ -100,5 +100,6 @@ allure serve report/
 |                          | `App.assert_size(self, locator, 'equal to 1')`             |
 |                          | `App.assert_size(self, locator, '== 1')`                   |
 | assert_boolean           | `App.assert_boolean(True, True)`                           |
+| swipe_until              | `App.swipe_until(self, locator, start_x=144, start_y=434)` |
 
 ![](https://i.imgur.com/5vjklOb.png)
