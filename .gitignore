@@ -10,3 +10,4 @@ report/
 .idea/
 dump/
 .pytest_cache/
+venv/
