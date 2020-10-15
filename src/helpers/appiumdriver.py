@@ -71,6 +71,10 @@ class Driver(unittest.TestCase):
                         udid=f'{UDID}', useNewWDA=True,
                         app=f'{os.popen("pwd").read().rstrip()}/data/apps/iOS-RealDevice-NativeDemoApp-0.2.1.ipa',
                         automationName='XCUITest')
+        elif self.device == 'bitrise':
+            return dict(platformName='iOS', platformVersion='13.0', deviceName='iPhone-11',
+                        udid='E04A6F53-4C3B-4810-B210-DD2015D0D064', useNewWDA=True,
+                        app=f'{os.popen("pwd").read().rstrip()}/data/apps/iOS-Simulator-NativeDemoApp-0.2.1.app', automationName='XCUITest')
 
     def tearDown(self):
         Driver.screenshot_on_failure(self)
